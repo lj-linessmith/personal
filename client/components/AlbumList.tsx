@@ -29,27 +29,54 @@ export default function Albums() {
     fetchAlbum2()
   }, [])
 
-  const arr = {}
-  function removeDuplicates(arr) {
-    return [...new Set(arr)]
+  function checkBoxSet(format) {
+    if (format.some((e) => e.name === 'Box Set')) {
+      return '(Box Set)'
+    }
   }
+
+  // const array = [
+  //   albums.forEach((album) => album),
+  //   albums2.forEach((album2) => {
+  //     album2
+  //   }),
+  // ]
+  // console.log('array:', array)
+  // function removeDuplicates(arr) {
+  //   return [...new Set(arr)]
+  // }
+
+  // const newArr = removeDuplicates(array)
+  // console.log(newArr)
 
   return (
     <>
       <h1>Albums List</h1>
+      {/* {newArr.map((album) => (
+        <li key={album.basic_information.id}>
+          {album.basic_information.title}
+          {album.basic_informtation.artists[0].name}
+        </li>
+      ))}
+      <p>testing</p> */}
       {/* {arr = {albums.map((album) => (album.basic_information.title) )} , {albums2.map((album2) => (album2.basic_information.title))}
   } */}
       {albums.map((album) => (
         <li key={album.basic_information.id}>
-          {album.basic_information.title} - by:{' '}
+          {album.basic_information.title}{' '}
+          {checkBoxSet(album.basic_information.formats)} - by:{' '}
           {album.basic_information.artists[0].name}
+          <br /> Rating:
+          {album.rating}
           {/* <Link to={}>{album.basic_information.title}</Link> */}
         </li>
       ))}
       {albums2.map((album2) => (
         <li key={album2.basic_information.id}>
-          {album2.basic_information.title} - by:{' '}
+          {album2.basic_information.title}{' '}
+          {checkBoxSet(album2.basic_information.formats)} - by:{' '}
           {album2.basic_information.artists[0].name}
+          <br /> Rating: {album2.rating}
           {/* {
             if (album2.artists[0].name == undefined) {
               {''}
