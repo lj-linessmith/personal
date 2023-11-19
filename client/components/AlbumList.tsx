@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom'
 export default function Albums() {
   const [albums, setAlbum] = useState([] as Album[])
 
-  
-
   useEffect(() => {
     async function fetchAlbum() {
       const albumData = await getAlbums()
@@ -31,16 +29,16 @@ export default function Albums() {
     fetchAlbum2()
   }, [])
 
-  let arr = {}
-  function removeDuplicates(arr) { 
-    return [...new Set(arr)]; 
-} 
+  const arr = {}
+  function removeDuplicates(arr) {
+    return [...new Set(arr)]
+  }
 
   return (
     <>
       <h1>Albums List</h1>
-      {arr = {albums.map((album) => (album.basic_information.title) )} , {albums2.map((album2) => (album2.basic_information.title))}
-  }
+      {/* {arr = {albums.map((album) => (album.basic_information.title) )} , {albums2.map((album2) => (album2.basic_information.title))}
+  } */}
       {albums.map((album) => (
         <li key={album.basic_information.id}>
           {album.basic_information.title} - by:{' '}
