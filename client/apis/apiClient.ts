@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { Album } from '../models/Albums.ts'
+import { Album } from '../../models/Albums.ts'
 
 export async function getAlbums(): Promise<Album[]> {
   const response = await request.get(

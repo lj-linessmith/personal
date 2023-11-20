@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Album } from '../../models/Albums.ts'
-import { getAlbums } from '../apiClient.ts'
-import { getAlbums2 } from '../apiClient.ts'
+import { getAlbums } from '../apis/apiClient.ts'
+import { getAlbums2 } from '../apis/apiClient.ts'
 import { Link } from 'react-router-dom'
 
 export default function Albums() {
@@ -29,10 +29,22 @@ export default function Albums() {
     fetchAlbum2()
   }, [])
 
-  function checkBoxSet(format) {
+  function checkBoxSet(format: object) {
     if (format.some((e) => e.name === 'Box Set')) {
-      return '(Box Set)'
+      return '[Box Set]'
     }
+  }
+
+  function getStars(rating) {
+    const output = []
+
+    // Append all the filled whole stars
+    for (let i = rating; i >= 1; i--) output.push('★')
+
+    // Fill the empty stars
+    for (let i = 5 - rating; i >= 1; i--) output.push(' ')
+
+    return output.join('')
   }
 
   // const array = [
@@ -66,8 +78,7 @@ export default function Albums() {
           {album.basic_information.title}{' '}
           {checkBoxSet(album.basic_information.formats)} - by:{' '}
           {album.basic_information.artists[0].name}
-          <br /> Rating:
-          {album.rating}
+          <br /> Rating: <b id="star">{getStars(album.rating)}</b>
           {/* <Link to={}>{album.basic_information.title}</Link> */}
         </li>
       ))}
@@ -76,7 +87,8 @@ export default function Albums() {
           {album2.basic_information.title}{' '}
           {checkBoxSet(album2.basic_information.formats)} - by:{' '}
           {album2.basic_information.artists[0].name}
-          <br /> Rating: {album2.rating}
+          <br />
+          Rating: <b id="star"> {getStars(album2.rating)}</b>
           {/* {
             if (album2.artists[0].name == undefined) {
               {''}
