@@ -48,15 +48,18 @@ export default function Albums() {
 
   if (isLoading) {
     return (
-      <div id="wrap">
-        <div id="album">
-          <div id="cover">
-            <div id="print"></div>
+      <div>
+        Loading...
+        {/* <div id="wrap">
+          <div id="album">
+            <div id="cover">
+              <div id="print"></div>
+            </div>
+            <div id="vinyl">
+              <div id="print"></div>
+            </div>
           </div>
-          <div id="vinyl">
-            <div id="print"></div>
-          </div>
-        </div>
+        </div> */}
       </div>
     )
   }
