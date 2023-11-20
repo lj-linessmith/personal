@@ -3,6 +3,9 @@ import { Album } from '../../models/Albums.ts'
 import { getAlbums } from '../apis/apiClient.ts'
 import { getAlbums2 } from '../apis/apiClient.ts'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getAllCustomAlbums } from '../apis/apiClient.ts'
+import CustomAlbumListItem from './CustomAlbum.tsx'
 
 export default function Albums() {
   const [albums, setAlbum] = useState([] as Album[])
@@ -28,6 +31,35 @@ export default function Albums() {
     }
     fetchAlbum2()
   }, [])
+
+  const {
+    data: customAlbums,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['Custom Album List'],
+    queryFn: getAllCustomAlbums,
+  })
+
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  if (isLoading) {
+    return (
+      <div id="wrap">
+        <div id="album">
+          <div id="cover">
+            <div id="print"></div>
+          </div>
+          <div id="vinyl">
+            <div id="print"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   function checkBoxSet(format: object) {
     if (format.some((e) => e.name === 'Box Set')) {
@@ -63,14 +95,18 @@ export default function Albums() {
 
   return (
     <>
-      <h1>Albums List</h1>
-      {/* {newArr.map((album) => (
-        <li key={album.basic_information.id}>
-          {album.basic_information.title}
-          {album.basic_informtation.artists[0].name}
-        </li>
+      <h1> Custom Albums List</h1>
+
+      {customAlbums?.map((p) => (
+        <CustomAlbumListItem
+          key={p.id}
+          id={p.id}
+          title={p.title}
+          artists={p.artists.name}
+        />
       ))}
-      <p>testing</p> */}
+
+      <h1> Discogs Albums List</h1>
       {/* {arr = {albums.map((album) => (album.basic_information.title) )} , {albums2.map((album2) => (album2.basic_information.title))}
   } */}
       {albums.map((album) => (

@@ -24,10 +24,7 @@ export async function renameCustomAlbum(
   id: number,
   title: string
 ): Promise<Album | undefined> {
-  return db('pokemon')
-    .where({ id })
-    .update({ title })
-    .returning(['id', 'title'])
+  return db('album').where({ id }).update({ title }).returning(['id', 'title'])
 }
 
 export async function deleteCustomAlbum(id: number): Promise<void> {

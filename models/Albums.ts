@@ -12,6 +12,13 @@ export interface Album {
   labels: Label[]
   genres: string[]
   styles: string[]
+  basic_information: Basic_Information
+}
+
+export interface Basic_Information {
+  title: string
+  artists: Artist[]
+  formats: Format[]
 }
 
 export interface Release {
