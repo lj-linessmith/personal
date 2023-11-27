@@ -11,16 +11,19 @@ interface Props {
   title: string
   artists: string
 }
-export default function CustomAlbumListItem({ id, title, artists }: Props) {
+export default function CustomAlbumListItem({
+  id,
+  title: initialTitle,
+  artists,
+}: Props) {
   const queryClient = useQueryClient()
   const [editing, setEditing] = useState(false)
-  const [text, setText] = useState(title)
+  const [text, setText] = useState(initialTitle)
   const deleteMutation = useMutation({
     mutationFn: deleteCustomAlbum,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['Album List'],
-      })
+      queryClient.invalidateQueries(['Album List'])
+      queryClient.refetchQueries()
     },
   })
   const handleDeleteClick = () => {
@@ -29,10 +32,12 @@ export default function CustomAlbumListItem({ id, title, artists }: Props) {
 
   const renameMutation = useMutation({
     mutationFn: renameCustomAlbum,
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['Album List'],
       })
+      setText(variables.newTitle)
+      setEditing(false)
     },
   })
 
@@ -43,12 +48,11 @@ export default function CustomAlbumListItem({ id, title, artists }: Props) {
     console.log('submitting', text)
 
     renameMutation.mutate({ id: id, newTitle: text })
-    setEditing(false)
   }
 
   const handleStopEditingClick = () => {
     setEditing(false)
-    setText(title)
+    setText(initialTitle)
   }
 
   const handleStartEditingClick = () => {
@@ -61,7 +65,7 @@ export default function CustomAlbumListItem({ id, title, artists }: Props) {
         <form onSubmit={handleEditSubmit}>
           <input
             type="text"
-            value={title}
+            value={text}
             onChange={(e) => setText(e.target.value)}
           />
           <button type="submit">Save</button>
@@ -71,7 +75,7 @@ export default function CustomAlbumListItem({ id, title, artists }: Props) {
         </form>
       ) : (
         <p>
-          {id} - {title} - {artists} -{' '}
+          {id} - {text} - by: {artists} -{' '}
           <span>
             <button onClick={handleStartEditingClick}>Rename</button>
             <button onClick={handleDeleteClick}>Delete</button>

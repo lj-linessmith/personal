@@ -19,7 +19,7 @@ export async function getAlbums2(): Promise<Album[]> {
 
 export async function getAllCustomAlbums() {
   const response = await request.get('/api/v1/customAlbums')
-
+  console.log('apiClient: ', response)
   return response.body as Album[]
 }
 
@@ -42,7 +42,8 @@ export async function renameCustomAlbum({
   id,
   newTitle,
 }: renameCustomAlbum): Promise<void> {
-  await request.patch(`/api/v1/customAlbums/${id}`).send({ title: newTitle })
+  console.log('sending via apiClient:', id, newTitle)
+  await request.patch(`/api/v1/customAlbums/${id}`).send({ newTitle: newTitle })
 }
 
 interface deleteCustomAlbum {

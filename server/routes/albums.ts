@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     console.log(err)
     res.status(500).send('Could not get albums')
   }
+  console.log('GETting to albums.ts: ', albums)
 })
 
 router.get('/:id', async (req, res) => {
@@ -55,20 +56,20 @@ router.patch('/:id', async (req, res) => {
   const id = parseInt(req.params.id)
   if (isNaN(id)) {
     res.status(400).send('Bad Request: ID must be a number')
+    console.log('failed at id')
     return
   }
 
-  const title = req.body.title
-  const artists = req.body.artists
+  const title = req.body.newTitle
+
   if (!title) {
     res.status(400).send('Bad Request: Title is required')
+    console.log('failed at title')
     return
-  }
-  if (!artists) {
-    res.status(400).send('Bad Request: Artist(s) is required')
   }
 
   try {
+    console.log('trying to db function: ', id, title)
     await db.renameCustomAlbum(id, title)
     res.sendStatus(200)
   } catch (err) {

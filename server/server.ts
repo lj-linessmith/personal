@@ -24,7 +24,7 @@ server.get('/api/v1/albums', async (req, res) => {
 })
 
 server.use('/api/v1/customAlbums', albumRoutes)
-server.use('/api/*', (req, res) => {
+server.get('/api/*', (req, res) => {
   res.sendStatus(404)
 })
 

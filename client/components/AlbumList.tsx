@@ -82,31 +82,19 @@ export default function Albums() {
     return output.join('')
   }
 
-  // const array = [
-  //   albums.forEach((album) => album),
-  //   albums2.forEach((album2) => {
-  //     album2
-  //   }),
-  // ]
-  // console.log('array:', array)
-  // function removeDuplicates(arr) {
-  //   return [...new Set(arr)]
-  // }
-
-  // const newArr = removeDuplicates(array)
-  // console.log(newArr)
-
   return (
     <>
       <h1> Custom Albums List</h1>
 
       {customAlbums?.map((p) => (
-        <CustomAlbumListItem
-          key={p.id}
-          id={p.id}
-          title={p.title}
-          artists={p.artists.name}
-        />
+        <>
+          <CustomAlbumListItem
+            key={p.id}
+            id={p.id}
+            title={p.title}
+            artists={p.artists}
+          />
+        </>
       ))}
 
       <h1> Discogs Albums List</h1>
